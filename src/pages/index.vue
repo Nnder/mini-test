@@ -19,8 +19,8 @@ const addEmptyUser = () => {
 </script>
 
 <template>
-  <div class="d-flex flex-column align-center v-container">
-    <v-sheet class="px-4 my-4 w-100">
+  <div class="d-flex flex-column align-start v-container">
+    <v-sheet class="px-4 my-2 w-100">
       <span class="text-center">Учетные записи</span>
       <v-icon-btn
         variant="text"
@@ -29,6 +29,14 @@ const addEmptyUser = () => {
         @click="addEmptyUser"
       ></v-icon-btn>
     </v-sheet>
+
+    <div class="ma-2">
+      <v-icon icon="mdi-help" />
+      <p class="d-inline">
+        Для указания нескольких меток для одной пары логин/пароль используйте
+        разделитель ;
+      </p>
+    </div>
 
     <v-table theme="dark" class="w-100">
       <thead>
