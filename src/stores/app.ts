@@ -1,4 +1,3 @@
-// Utilities
 import type { IUser } from "@/types/user.types";
 import { defineStore } from "pinia";
 
@@ -15,14 +14,31 @@ export const useUsersStore = defineStore("users", () => {
   };
 
   const save = () => {
-    const validData = users.value.filter((user) => user.save === true);
+    const validData = users.value
+      .filter((user) => user.save === true)
+      .map((user) => ({
+        ...user,
+        markers: (user.markers || []).join(";"), // преобразуем массив в строку
+      }));
+
     localStorage.setItem("users", JSON.stringify(validData));
-    console.log(validData, "for save");
+    console.log(validData, "Сохраненно");
   };
 
   const restoreLocalStorage = () => {
-    const data = JSON.parse(localStorage.getItem("users"));
-    users.value = data;
+    const storage = localStorage.getItem("users");
+
+    if (storage) {
+      const data: IUser[] = JSON.parse(storage);
+
+      users.value = data.map((user) => ({
+        ...user,
+        markers: (user.markers || "")
+          .split(";")
+          .map((m) => m.trim())
+          .filter((m) => m.length > 0),
+      }));
+    }
   };
 
   restoreLocalStorage();
