@@ -2,19 +2,19 @@
 import { useUsersStore } from "@/stores/app";
 import type { IUser } from "@/types/user.types";
 
-const { users, userCounter, addUser, removeUser } = useUsersStore();
+const userStore = useUsersStore();
 
 const addEmptyUser = () => {
   const emptyUser: IUser = {
-    id: userCounter,
+    id: userStore.userCounter,
     markers: "",
     type: "Локальная",
     login: "",
     password: "",
   };
 
-  addUser(emptyUser);
-  console.log(userCounter);
+  userStore.addUser(emptyUser);
+  console.log(emptyUser);
 };
 </script>
 
@@ -41,7 +41,7 @@ const addEmptyUser = () => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" :key="user.id">
+        <tr v-for="user in userStore.users" :key="user.id">
           <td>
             <v-text-field label="Метки" v-model="user.markers"></v-text-field>
           </td>
@@ -52,7 +52,7 @@ const addEmptyUser = () => {
               v-model="user.type"
             ></v-select>
           </td>
-          <td :colspan="user.type === 'LDAP' ? 1 : 2">
+          <td :colspan="user.type === 'LDAP' ? 2 : 1">
             <v-text-field label="Логин" v-model="user.login"></v-text-field>
           </td>
           <td v-show="user.type !== 'LDAP'">
@@ -62,7 +62,7 @@ const addEmptyUser = () => {
             <v-icon-btn
               variant="text"
               icon="mdi-trash-can"
-              @click="removeUser(user.id)"
+              @click="userStore.removeUser(user.id)"
             ></v-icon-btn>
           </td>
         </tr>
