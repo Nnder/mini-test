@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import TableRow from "@/components/UserRow.vue";
 import { useUsersStore } from "@/stores/app";
 import type { IUser } from "@/types/user.types";
 
@@ -16,11 +17,6 @@ const addEmptyUser = () => {
 
   userStore.addUser(emptyUser);
   console.log(emptyUser);
-};
-
-const rules = {
-  required: (value: string) => !!value || "Обязательное поле.",
-  counter: (value: string) => value.length >= 2 || "Минимально 2 символа",
 };
 </script>
 
@@ -44,7 +40,7 @@ const rules = {
       </p>
     </div>
 
-    <v-table theme="dark" class="w-100">
+    <!-- <v-table theme="dark" class="w-100">
       <thead>
         <tr>
           <th class="text-left">Метки</th>
@@ -55,54 +51,35 @@ const rules = {
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="user in userStore.users"
-          :key="user.id"
-          height="100"
-          :class="[user?.save ? 'bg-dark' : 'bg-warning']"
-        >
-          <td>
-            <v-text-field
-              :rules="[rules.required, rules.counter]"
-              label="Метки"
-              maxlength="50"
-              v-model="user.markers"
-              :hasError="user.save"
-            ></v-text-field>
-          </td>
-          <td width="300">
-            <v-select
-              label="Тип записи"
-              :items="['Локальная', 'LDAP']"
-              v-model="user.type"
-            ></v-select>
-          </td>
-          <td :colspan="user.type === 'LDAP' ? 2 : 1">
-            <v-text-field
-              :rules="[rules.required, rules.counter]"
-              label="Логин"
-              maxlength="100"
-              v-model="user.login"
-            ></v-text-field>
-          </td>
-          <td v-show="user.type !== 'LDAP'">
-            <v-text-field
-              :rules="[rules.required, rules.counter]"
-              label="Пароль"
-              type="password"
-              maxlength="100"
-              v-model="user.password"
-            ></v-text-field>
-          </td>
-          <td width="25">
-            <v-icon-btn
-              variant="text"
-              icon="mdi-trash-can"
-              @click="userStore.removeUser(user.id)"
-            ></v-icon-btn>
-          </td>
-        </tr>
+        <TableRow v-for="user in userStore.users" :key="user.id" :user="user" />
       </tbody>
-    </v-table>
+    </v-table> -->
+
+    <v-container class="bg-surface-variant mb-6">
+      <v-row align="start" no-gutters>
+        <v-col>
+          <v-text-field label="Метки"></v-text-field>
+        </v-col>
+        <v-col>
+          <v-select
+            label="Тип записи"
+            :items="['Локальная', 'LDAP']"
+          ></v-select>
+        </v-col>
+        <v-col>
+          <v-text-field label="Логин"></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field label="Пароль"></v-text-field>
+        </v-col>
+        <v-col> </v-col>
+      </v-row>
+      <UserRow
+        no-gutters
+        v-for="user in userStore.users"
+        :key="user.id"
+        :user="user"
+      />
+    </v-container>
   </div>
 </template>
