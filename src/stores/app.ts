@@ -4,6 +4,7 @@ import { defineStore } from "pinia";
 
 export const useUsersStore = defineStore("users", () => {
   const users = ref<IUser[]>([]);
+  const userCounter = computed(() => users.value.length);
   const addUser = (userData: IUser) => {
     users.value.push(userData);
   };
@@ -13,5 +14,5 @@ export const useUsersStore = defineStore("users", () => {
     users.value = filteredUsers;
   };
 
-  return { users, addUser, removeUser };
+  return { users, userCounter, addUser, removeUser };
 });
