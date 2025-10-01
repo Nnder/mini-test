@@ -1,9 +1,8 @@
 export type UserType = "Локальная" | "LDAP";
-export type MarkerType = { text: string };
 
-export interface IUser {
+export interface IUser<TMarkers = string[]> {
   id: number;
-  markers: MarkerType[];
+  markers: TMarkers;
   type: UserType;
   login: string;
   password?: string | null;

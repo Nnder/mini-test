@@ -54,9 +54,10 @@ const markersText = computed({
           :items="['Локальная', 'LDAP']"
           v-model="user.type"
           @blur="
-            (event) => {
+            (event: FocusEvent) => {
               validateRow();
-              event.target.value === 'LDAP'
+              const input = event.target as HTMLInputElement;
+              input.value === 'LDAP'
                 ? (user.password = null)
                 : (user.password = '');
             }

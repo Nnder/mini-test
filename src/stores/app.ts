@@ -29,15 +29,16 @@ export const useUsersStore = defineStore("users", () => {
     const storage = localStorage.getItem("users");
 
     if (storage) {
-      const data: IUser[] = JSON.parse(storage);
-
-      users.value = data.map((user) => ({
+      const data: IUser<string>[] = JSON.parse(storage);
+      const result: IUser[] = data.map((user) => ({
         ...user,
         markers: (user.markers || "")
           .split(";")
           .map((m) => m.trim())
           .filter((m) => m.length > 0),
       }));
+
+      users.value = result;
     }
   };
 
