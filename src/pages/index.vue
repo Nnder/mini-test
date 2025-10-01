@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import TableRow from "@/components/UserRow.vue";
+import UserRow from "@/components/UserRow.vue";
 import { useUsersStore } from "@/stores/app";
 import type { IUser } from "@/types/user.types";
 
@@ -40,39 +40,21 @@ const addEmptyUser = () => {
       </p>
     </div>
 
-    <!-- <v-table theme="dark" class="w-100">
-      <thead>
-        <tr>
-          <th class="text-left">Метки</th>
-          <th class="text-left">Тип записи</th>
-          <th class="text-left">Логин</th>
-          <th class="text-left">Пароль</th>
-          <th class="text-left"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <TableRow v-for="user in userStore.users" :key="user.id" :user="user" />
-      </tbody>
-    </v-table> -->
-
     <v-container class="bg-surface-variant mb-6">
-      <v-row align="start" no-gutters>
-        <v-col>
-          <v-text-field label="Метки"></v-text-field>
+      <v-row no-gutters class="">
+        <v-col class="pa-2">
+          <span>Метки</span>
         </v-col>
-        <v-col>
-          <v-select
-            label="Тип записи"
-            :items="['Локальная', 'LDAP']"
-          ></v-select>
+        <v-col class="pa-2">
+          <span>Тип записи</span>
         </v-col>
-        <v-col>
-          <v-text-field label="Логин"></v-text-field>
+        <v-col class="pa-2">
+          <span>Логин</span>
         </v-col>
-        <v-col>
-          <v-text-field label="Пароль"></v-text-field>
-        </v-col>
-        <v-col> </v-col>
+        <v-col class="pa-2">
+          <span>Пароль</span>
+        </v-col class="pa-2">
+        <v-col class="pa-2" cols="auto"></v-col>
       </v-row>
       <UserRow
         no-gutters

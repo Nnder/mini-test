@@ -29,7 +29,7 @@ const validateRow = async () => {
 <template>
   <v-form ref="rowForm">
     <v-row height="100" :class="[user?.save ? 'bg-dark' : 'bg-secondary']">
-      <v-col>
+      <v-col :cols="3">
         <v-text-field
           :rules="[rules.required, rules.counter]"
           label="Метки"
@@ -38,14 +38,22 @@ const validateRow = async () => {
           @blur="validateRow"
         ></v-text-field>
       </v-col>
-      <v-col width="300">
+      <v-col :cols="2">
         <v-select
           label="Тип записи"
           :items="['Локальная', 'LDAP']"
           v-model="user.type"
+          @blur="
+            (event) => {
+              validateRow();
+              event.target.value === 'LDAP'
+                ? (user.password = null)
+                : (user.password = '');
+            }
+          "
         ></v-select>
       </v-col>
-      <v-col :colspan="user.type === 'LDAP' ? 2 : 1">
+      <v-col :cols="user.type === 'LDAP' ? 6 : 3">
         <v-text-field
           :rules="[rules.required, rules.counter]"
           label="Логин"
@@ -54,7 +62,7 @@ const validateRow = async () => {
           @blur="validateRow"
         ></v-text-field>
       </v-col>
-      <v-col :colspan="user.type === 'LDAP' ? 2 : 1">
+      <v-col v-if="user.type !== 'LDAP'" :cols="3">
         <v-text-field
           :rules="[rules.required, rules.counter]"
           label="Пароль"
@@ -64,7 +72,7 @@ const validateRow = async () => {
           @blur="validateRow"
         ></v-text-field>
       </v-col>
-      <v-col width="25">
+      <v-col cols="auto">
         <v-icon-btn
           variant="text"
           icon="mdi-trash-can"
