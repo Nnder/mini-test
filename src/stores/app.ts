@@ -1,8 +1,17 @@
 // Utilities
-import { defineStore } from 'pinia'
+import type { IUser } from "@/types/user.types";
+import { defineStore } from "pinia";
 
-export const useAppStore = defineStore('app', {
-  state: () => ({
-    //
-  }),
-})
+export const useUsersStore = defineStore("users", () => {
+  const users = ref<IUser[]>([]);
+  const addUser = (userData: IUser) => {
+    users.value.push(userData);
+  };
+
+  const removeUser = (id: number) => {
+    const filteredUsers = users.value.filter((val) => val.id !== id);
+    users.value = filteredUsers;
+  };
+
+  return { users, addUser, removeUser };
+});
