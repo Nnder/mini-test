@@ -24,6 +24,16 @@ const validateRow = async () => {
     userStore.save();
   }
 };
+
+const markersText = computed({
+  get: () => (props.user.markers || []).join(";"),
+  set: (val: string) => {
+    props.user.markers = val
+      .split(";")
+      .map((m) => m.trim())
+      .filter((m) => m.length > 0);
+  },
+});
 </script>
 
 <template>
@@ -34,7 +44,7 @@ const validateRow = async () => {
           :rules="[rules.required, rules.counter]"
           label="Метки"
           maxlength="50"
-          v-model="user.markers"
+          v-model="markersText"
           @blur="validateRow"
         ></v-text-field>
       </v-col>
