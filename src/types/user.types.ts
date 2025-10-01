@@ -5,5 +5,6 @@ export interface IUser {
   markers: string;
   type: UserType;
   login: string;
-  password?: string;
+  password?: string | null;
+  save?: boolean;
 }

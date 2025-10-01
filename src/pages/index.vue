@@ -11,10 +11,16 @@ const addEmptyUser = () => {
     type: "Локальная",
     login: "",
     password: "",
+    save: false,
   };
 
   userStore.addUser(emptyUser);
   console.log(emptyUser);
+};
+
+const rules = {
+  required: (value: string) => !!value || "Обязательное поле.",
+  counter: (value: string) => value.length >= 2 || "Минимально 2 символа",
 };
 </script>
 
@@ -49,11 +55,22 @@ const addEmptyUser = () => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in userStore.users" :key="user.id">
+        <tr
+          v-for="user in userStore.users"
+          :key="user.id"
+          height="100"
+          :class="[user?.save ? 'bg-dark' : 'bg-warning']"
+        >
           <td>
-            <v-text-field label="Метки" v-model="user.markers"></v-text-field>
+            <v-text-field
+              :rules="[rules.required, rules.counter]"
+              label="Метки"
+              maxlength="50"
+              v-model="user.markers"
+              :hasError="user.save"
+            ></v-text-field>
           </td>
-          <td>
+          <td width="300">
             <v-select
               label="Тип записи"
               :items="['Локальная', 'LDAP']"
@@ -61,10 +78,21 @@ const addEmptyUser = () => {
             ></v-select>
           </td>
           <td :colspan="user.type === 'LDAP' ? 2 : 1">
-            <v-text-field label="Логин" v-model="user.login"></v-text-field>
+            <v-text-field
+              :rules="[rules.required, rules.counter]"
+              label="Логин"
+              maxlength="100"
+              v-model="user.login"
+            ></v-text-field>
           </td>
           <td v-show="user.type !== 'LDAP'">
-            <v-text-field label="Пароль" v-model="user.password"></v-text-field>
+            <v-text-field
+              :rules="[rules.required, rules.counter]"
+              label="Пароль"
+              type="password"
+              maxlength="100"
+              v-model="user.password"
+            ></v-text-field>
           </td>
           <td width="25">
             <v-icon-btn
