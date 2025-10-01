@@ -8,7 +8,7 @@ const userStore = useUsersStore();
 const addEmptyUser = () => {
   const emptyUser: IUser = {
     id: userStore.userCounter,
-    markers: "",
+    markers: [],
     type: "Локальная",
     login: "",
     password: "",
