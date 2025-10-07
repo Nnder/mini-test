@@ -41,7 +41,6 @@ const markersText = computed({
     <v-row height="100" :class="[user?.save ? 'bg-dark' : 'bg-secondary']">
       <v-col :cols="3">
         <v-text-field
-          :rules="[rules.required, rules.counter]"
           label="Метки"
           maxlength="50"
           v-model="markersText"
